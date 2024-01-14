@@ -3,15 +3,30 @@ name = "ad_scan"
 version = "0.1.0"
 edition = "2021"
 
-[profile.release]
-codegen-units = 1
-strip = true
-lto = true
-opt-level = "z"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[profile.release]
+# Enables "fat" LTO, for faster release builds
+#lto = "fat"
+lto = true
+# Makes sure that all code is compiled together, for LTO
+codegen-units = 1
+panic = 'abort'
+incremental = false
+rpath = false
+overflow-checks = true #运行期 溢出类型检查
+#strip= "debuginfo"
+strip = true
+debug-assertions = false
+debug = 0
+opt-level = "z"
+
 
 [dependencies]
+#boa_engine = "0.17.3"
 colored = "2.1.0"
 serde_yaml = "0.9.30"
 serde = { version = "1.0.195", features = ["derive"] }
 walkdir = "2.3"
+clap = { version = "4.4.16", features = ["derive"] }
+dirs = { version = "5.0.1", features = [] }

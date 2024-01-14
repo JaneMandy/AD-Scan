@@ -10,7 +10,25 @@ pub mod std_io_rust {
         Warning,
         Error,
     }
+    pub enum VulnLevel {
+        Low,
+        Medium,
+        High,
+        Critical,
+    }
+    pub fn print_vuln_msg(vuln_level:VulnLevel, target: &str, vuln_id:String){
+        let prefix = match vuln_level {
+            VulnLevel::Low => "Low".blue().blue(),
+            VulnLevel::Medium => "Medium".blue().green(),
+            VulnLevel::High => "High".red().yellow(),
+            VulnLevel::Critical => "Critical".bold().purple(),
+        };
+        if vuln_id.contains("sslvpn-client-rce"){
+            println!("[{}] - {}  -  {}",prefix,vuln_id.bold().green(),target.bold().yellow());
+        }
 
+
+    }
 
     pub fn print_message(message_type: MessageType, format_str: &str, args: Option<std::fmt::Arguments>) {
         let prefix = match message_type {
